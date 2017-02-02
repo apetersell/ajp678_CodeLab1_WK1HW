@@ -11,7 +11,8 @@ public class BallReset : MonoBehaviour {
 	public Vector2 startVelocity;
 	GameObject scoreManager; 
 	ScoreManager sm; 
-//	public bool grabbed = false;
+	public bool canBeGrabbed = true;
+	public bool grabbed = false;
 ////public float normalGrav;
 ////public float normalMass; 
 //	public PhysicsMaterial2D blankPhysics; 
