@@ -20,7 +20,9 @@ public class Grab : MonoBehaviour {
 	public Color inRange; 
 	public bool canGrab;
 	public float heightAboveHead;
-	public GameObject player; 
+	public GameObject playerGuy;
+	public GameObject playerGal;
+	public int playerNumber;
 
 
 	// Use this for initialization
@@ -72,11 +74,27 @@ public class Grab : MonoBehaviour {
 		{
 			sr.color = inRange; 
 			canGrab = true; 
+			if (playerNumber == 1) 
+			{
+				br.inHandsOfGuy = true;
+			}
+			if (playerNumber == 2) 
+			{
+				br.inHandsOfGal = true;
+			}
 		}
 		if (!bc.IsTouching(col))
 		{
 			sr.color = empty; 
 			canGrab = false; 
+			if (playerNumber == 1) 
+			{
+				br.inHandsOfGuy = false;
+			}
+			if (playerNumber == 2) 
+			{
+				br.inHandsOfGal = false;
+			}
 		}
 	}
 
@@ -84,15 +102,28 @@ public class Grab : MonoBehaviour {
 	{
 		if (canGrab == true && br.canBeGrabbed == true)
 		{
-			if (Input.GetKeyDown (grab)) 
+			if (Input.GetKeyDown (grab) && br.inHandsOfGal == true) 
 			{
 				br.grabbed = true;
+				br.grabbedByGal = true;
+				br.canBeGrabbed = false;
+			}
+
+			if (Input.GetKeyDown (grab) && br.inHandsOfGuy == true) 
+			{
+				br.grabbed = true;
+				br.grabbedByGuy = true;
 				br.canBeGrabbed = false;
 			}
 		}
-		if (br.grabbed == true) 
+		if (br.grabbedByGal == true) 
 		{
-			ball.transform.position = new Vector3 (player.transform.position.x, player.transform.position.y + heightAboveHead, player.transform.position.z);
+			ball.transform.position = new Vector3 (playerGal.transform.position.x, playerGal.transform.position.y + heightAboveHead, playerGal.transform.position.z);
+		}
+
+		if (br.grabbedByGuy == true) 
+		{
+			ball.transform.position = new Vector3 (playerGuy.transform.position.x, playerGuy.transform.position.y + heightAboveHead, playerGuy.transform.position.z);
 		}
 	}
 }

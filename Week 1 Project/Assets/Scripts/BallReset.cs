@@ -25,6 +25,10 @@ public class BallReset : MonoBehaviour {
 	public bool dropped;
 	public int physicsTimer;
 	public int physicsLimit;
+	public bool inHandsOfGuy;
+	public bool inHandsOfGal;
+	public bool grabbedByGal;
+	public bool grabbedByGuy;
 
 
 	// Use this for initialization
@@ -41,6 +45,7 @@ public class BallReset : MonoBehaviour {
 
 		grabbedProperties ();
 		ballDrop ();
+		evenOut ();
 
 	}
 
@@ -51,12 +56,12 @@ public class BallReset : MonoBehaviour {
 			transform.position = startPos;
 			rb.velocity = startVelocity;
 
-			if (touched.gameObject.name == "Blue Goal")
+			if (touched.gameObject.name == "Blue Goal" && grabbed == false)
 			{
 				sm.blueGoal ();
 			}
 
-			if (touched.gameObject.name == "Orange Goal") 
+			if (touched.gameObject.name == "Orange Goal" && grabbed == false) 
 			{
 				sm.orangeGoal ();
 			}
@@ -91,6 +96,8 @@ public class BallReset : MonoBehaviour {
 		if (grabTimer >= grabLimit) 
 		{
 			grabbed = false;
+			grabbedByGal = false;
+			grabbedByGuy = false;
 			canBeGrabbed = true;
 			grabTimer = 0;
 			rb.velocity = new Vector2 (0, 0);
@@ -108,6 +115,15 @@ public class BallReset : MonoBehaviour {
 			dropped = false; 
 			physicsTimer = 0;
 			rb.sharedMaterial = bouncePhysics; 
+		}
+	}
+
+	void evenOut()
+	{
+		if (inHandsOfGal == true && inHandsOfGuy == true)
+		{
+			inHandsOfGal = false;
+			inHandsOfGuy = false;
 		}
 	}
 
