@@ -5,19 +5,24 @@ using UnityEngine;
 public class BallReset : MonoBehaviour {
 	//	GameObject orangeGoal;
 	//	GameObject blueGoal;
-	Rigidbody2D rb;
+
 
 	public Vector3 startPos;
 	public Vector2 startVelocity;
 	GameObject scoreManager; 
 	ScoreManager sm; 
+	Rigidbody2D rb;
 	public bool canBeGrabbed = true;
 	public bool grabbed = false;
-////public float normalGrav;
-////public float normalMass; 
-//	public PhysicsMaterial2D blankPhysics; 
-//	public PhysicsMaterial2D bouncePhysics; 
-//
+	public float normalGrav;
+	public float normalMass; 
+	public float grabbedGrav;
+	public float grabbedMass;
+	public PhysicsMaterial2D blankPhysics; 
+	public PhysicsMaterial2D bouncePhysics; 
+	public int grabTimer;
+	public int grabLimit;
+
 	// Use this for initialization
 	void Start () {
 		//		orangeGoal = GameObject.Find ("Orange Goal");
@@ -30,7 +35,8 @@ public class BallReset : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//grabbedProperties ();
+		grabbedProperties ();
+		ballDrop ();
 
 	}
 
@@ -54,21 +60,36 @@ public class BallReset : MonoBehaviour {
 
 	}
 
-//	void grabbedProperties ()
-//	{
-//		if (grabbed == true) 
-//		{
-//			rb.gravityScale = 0;
-//			rb.mass = 0;
-//			rb.sharedMaterial = blankPhysics;
-//		}
-//
-//		if (grabbed == false)
-//		{
-//			rb.gravityScale = normalGrav;
-//			rb.mass = normalMass;
-//			rb.sharedMaterial = bouncePhysics;
-//		}
-//	}
+	void grabbedProperties ()
+	{
+		if (grabbed == true) 
+		{
+			rb.gravityScale = grabbedGrav;
+			rb.mass = grabbedMass;
+			rb.sharedMaterial = blankPhysics;
+		}
+
+		if (grabbed == false)
+		{
+			rb.gravityScale = normalGrav;
+			rb.mass = normalMass;
+			rb.sharedMaterial = bouncePhysics;
+		}
+	}
+
+	void ballDrop()
+	{
+		if (grabbed == true) 
+		{
+			grabTimer++;
+		}
+
+		if (grabTimer >= grabLimit) 
+		{
+			grabbed = false;
+			canBeGrabbed = true;
+			grabTimer = 0;
+		}
+	}
 
 }
