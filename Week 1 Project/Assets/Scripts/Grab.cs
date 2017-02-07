@@ -8,6 +8,7 @@ public class Grab : MonoBehaviour {
 	BoxCollider2D bc;
 	GameObject ball;
 	BallReset br;
+	PlayerMovement pm;
 	public Collider2D ballCollider;  
 	public Vector3 leftPos;
 	public Vector3 rightPos; 
@@ -28,6 +29,7 @@ public class Grab : MonoBehaviour {
 		ball = GameObject.Find ("Ball");
 		br = ball.GetComponent<BallReset> ();
 		bc = GetComponent<BoxCollider2D> ();
+		pm = GetComponentInParent<PlayerMovement> (); 
 		
 	}
 
@@ -66,7 +68,7 @@ public class Grab : MonoBehaviour {
 
 	void grabAction(Collider2D col)
 	{
-		if (bc.IsTouching(col) && br.canBeGrabbed == true)
+		if (bc.IsTouching(col) && br.canBeGrabbed == true && pm.dropStun == false)
 		{
 			sr.color = inRange; 
 			canGrab = true; 

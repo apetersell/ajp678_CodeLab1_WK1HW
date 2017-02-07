@@ -22,6 +22,10 @@ public class BallReset : MonoBehaviour {
 	public PhysicsMaterial2D bouncePhysics; 
 	public int grabTimer;
 	public int grabLimit;
+	public bool dropped;
+	public int physicsTimer;
+	public int physicsLimit;
+
 
 	// Use this for initialization
 	void Start () {
@@ -73,7 +77,7 @@ public class BallReset : MonoBehaviour {
 		{
 			rb.gravityScale = normalGrav;
 			rb.mass = normalMass;
-			rb.sharedMaterial = bouncePhysics;
+//			rb.sharedMaterial = bouncePhysics;
 		}
 	}
 
@@ -89,6 +93,21 @@ public class BallReset : MonoBehaviour {
 			grabbed = false;
 			canBeGrabbed = true;
 			grabTimer = 0;
+			rb.velocity = new Vector2 (0, 0);
+			dropped = true;
+		}
+
+		if (dropped == true) 
+		{
+			rb.sharedMaterial = blankPhysics;
+			physicsTimer++;
+		}
+
+		if (physicsTimer >= physicsLimit) 
+		{
+			dropped = false; 
+			physicsTimer = 0;
+			rb.sharedMaterial = bouncePhysics; 
 		}
 	}
 

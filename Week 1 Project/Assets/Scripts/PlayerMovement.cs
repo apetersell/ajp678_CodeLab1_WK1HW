@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour {
 	public bool inAir;
 	private bool canJump;
 	public bool canHover;
+	public bool dropStun; 
 	public KeyCode left; 
 	public KeyCode right;
 	public KeyCode jump;
